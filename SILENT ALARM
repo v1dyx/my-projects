@@ -1,0 +1,28 @@
+#include <Arduino.h>
+
+const int LDR_PIN = A0;      // Analog pin for LDR
+const int led_PIN = 9;    // Digital pin for LED
+const int THRESHOLD = 500;   // Adjust this value based on LDR sensitivity
+
+void setup() {
+  pinMode(led_PIN, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  int ldrValue = analogRead(LDR_PIN);
+
+  if (ldrValue > THRESHOLD) {
+    Serial.println("Intruder detected!");
+    activateAlarm();
+  } else {
+    Serial.println("No intrusion.");
+  }
+  delay(100);  // Delay for stability
+}
+
+void activateAlarm() {
+  digitalWrite(led_PIN, HIGH);
+  delay(100); 
+  digitalWrite(led_PIN, LOW);
+}
